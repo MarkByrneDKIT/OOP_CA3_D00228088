@@ -1,0 +1,7 @@
+package com.dkit.mb;
+
+public enum MenuOptions
+{
+    CONTINUE, Add_STUDENT, ADD_BOOKING, PRINT_ALL_BOOKINGS,
+    AVERAGE_LENGTH_OF_BOOKINGS, PRINT_STATISTICS, QUIT;
+}
