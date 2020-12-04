@@ -67,4 +67,28 @@ public class Computer
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
+
+    public Computer(String manufacturer,String cpu,int ram_size, int disk_size, double weight, String asset_tag, LocalDateTime purchase_date)
+    {
+        this.manufacturer = manufacturer;
+        this.cpu = cpu;
+        this.ram_size = ram_size;
+        this.disk_size = disk_size;
+        this.weight = weight;
+        this.asset_tag = asset_tag;
+        this.purchase_date = purchase_date;
+    }
+
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "manufacturer='" + manufacturer + '\'' +
+                ", cpu='" + cpu + '\'' +
+                ", ram_size=" + ram_size +
+                ", disk_size=" + disk_size +
+                ", weight=" + weight +
+                ", asset_tag='" + asset_tag + '\'' +
+                ", purchase_date=" + purchase_date +
+                '}';
+    }
 }

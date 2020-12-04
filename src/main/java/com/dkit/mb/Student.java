@@ -1,9 +1,12 @@
 package com.dkit.mb;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Student
 {
+
+
     private String name;
     private String ID;
     private String email;
@@ -68,6 +71,8 @@ public class Student
     {
         this.name = name;
     }
+
+
 
     @Override
     public String toString() {
