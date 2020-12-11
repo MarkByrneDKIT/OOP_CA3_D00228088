@@ -3,44 +3,24 @@ package com.dkit.mb;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RaspberryPi extends Computer
+public class RaspberryPiDB
 {
-    private int GPIO_pins;
-    private int sd_card_size; //in gbs
-    private ArrayList<RaspberryPi> raspberryPis;
+    private ArrayList<RaspberryPi> pisList;
 
-    public RaspberryPi(String manufacturer, String cpu, int ram_size, int disk_size, double weight, String asset_tag, LocalDate purchase_date, int GPIO_pins, int sd_card_size)
+    public RaspberryPiDB(){this.pisList = new ArrayList<>();}
+
+    public void printPis()
     {
-        super(manufacturer, cpu, ram_size, disk_size, weight, asset_tag, purchase_date);
-        this.GPIO_pins = GPIO_pins;
-        this.sd_card_size = sd_card_size;
-    }
-/*
-    public RaspberryPi()
-    {this.raspberryPis = new ArrayList<>();}
-
-
- */
-    public int getSd_card_size() {
-        return sd_card_size;
+        for(int i = 0; i < pisList.size(); i++)
+        {
+            System.out.println(pisList.get(i));
+        }
     }
 
-    public void setSd_card_size(int sd_card_size) {
-        this.sd_card_size = sd_card_size;
-    }
-
-    public int getGPIO_pins() {
-        return GPIO_pins;
-    }
-
-    public void setGPIO_pins(int GPIO_pins) {
-        this.GPIO_pins = GPIO_pins;
-    }
 
     protected void loadRaspberryPisFromFile()
     {
@@ -72,32 +52,21 @@ public class RaspberryPi extends Computer
 
                 System.out.println("Manufacturer: " + manufacturer + " Cpu: " + cpu + " Ram size: " + ramSize + "gb Disk size: " + diskSize + "gb weight: " + weight +  "kg Asset Tag: " + assetTag + " Purchase date: " + purchaseDate + " GPIO PINS: " + gpioPins + " Sd Card Size: " + sdCardSize + "gb");
 
-                raspberryPis.add( new RaspberryPi(manufacturer, cpu, ramSize, diskSize, weight, assetTag, purchaseTime, gpio_Pins, sdCardSize));
+                pisList.add( new RaspberryPi(manufacturer, cpu, ramSize, diskSize, weight, assetTag, purchaseTime, gpio_Pins, sdCardSize));
 
             }
-            System.out.println("All students loaded");
+            System.out.println("All Raspberry Pis loaded");
             studentsFile.close();
-            System.out.println("All Students: " + raspberryPis); // print them all
+            System.out.println("All Raspberry Pis: " + pisList); // print them all
 
         }
         catch (IOException e)
         {
-            System.out.println("IOException thrown in loadStudentsFromFile() "+e.getMessage());
+            System.out.println("IOException thrown in loadRaspberryPisFromFile() "+e.getMessage());
         }
 
     }
 
 
 
-
-
-
-
-    @Override
-    public String toString() {
-        return "RaspberryPi{" + super.toString() +
-                "GPIO_pins=" + GPIO_pins +
-                ", sd_card_size=" + sd_card_size +
-                '}';
-    }
 }

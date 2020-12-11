@@ -1,22 +1,22 @@
 package com.dkit.mb;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Computer
 {
     private String manufacturer;
     private String cpu;
-    private int ram_size;
-    private int disk_size;
-    private double weight;
+    private int ram_size; //in gb
+    private int disk_size; //in gb
+    private double weight; //in kgs
     private String asset_tag;
-    private LocalDateTime purchase_date;
+    private LocalDate purchase_date;
 
-    public LocalDateTime getPurchase_date() {
+    public LocalDate getPurchase_date() {
         return purchase_date;
     }
 
-    public void setPurchase_date(LocalDateTime purchase_date) {
+    public void setPurchase_date(LocalDate purchase_date) {
         this.purchase_date = purchase_date;
     }
 
@@ -68,7 +68,7 @@ public class Computer
         this.manufacturer = manufacturer;
     }
 
-    public Computer(String manufacturer,String cpu,int ram_size, int disk_size, double weight, String asset_tag, LocalDateTime purchase_date)
+    public Computer(String manufacturer,String cpu,int ram_size, int disk_size, double weight, String asset_tag, LocalDate purchase_date)
     {
         this.manufacturer = manufacturer;
         this.cpu = cpu;
@@ -81,7 +81,7 @@ public class Computer
 
     @Override
     public String toString() {
-        return "Computer{" +
+        return
                 "manufacturer='" + manufacturer + '\'' +
                 ", cpu='" + cpu + '\'' +
                 ", ram_size=" + ram_size +

@@ -1,6 +1,8 @@
 package com.dkit.mb;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,14 +30,14 @@ public class StudentDB
     public Student findStudentByID(int id)
     {
         for(Student s : studentList) {
-            if (s.getID().equals(id)) {
+            if (s.getID().equals(id))
                 return s;
-            }
+
         }
         return null;
     }
 
-    public void addStudent(Student student) //TODO prevent duplicates
+    public void addStudent(Student student)
     {
         studentList.add(student);
     }
@@ -95,15 +97,22 @@ public class StudentDB
 
     }
 
-    public void editStudentDetail()
+
+    public void saveStudentsToFile()
     {
-        System.out.println("Please enter the ID of the student that you would like to edit: ");
-        int id = keyboard.nextInt();
-
+        try(BufferedWriter studentsFile = new BufferedWriter(new FileWriter("newStudents.txt") ))
+        {
+            for(Student student : studentList)
+            {
+               studentsFile.write(student.getName() +" "+student.getID()+" "+student.getEmail() + " " + student.getTelephone() + " " + student.getPcs_on_loan());
+                studentsFile.write("\n");
+            }
+        }
+        catch(IOException ioe)
+        {
+            System.out.println("Could not save students.");
+        }
     }
-
-
-
 
 
 

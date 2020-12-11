@@ -1,23 +1,34 @@
 package com.dkit.mb;
 
 
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App
 {
     private static Scanner keyboard = new Scanner(System.in);
+    private static Scanner kb = new Scanner(System.in);
     public static void main( String[] args )
     {
         System.out.println( "Welcome to the Computer Loaning System" );
 
         BookingDB bookingDB = new BookingDB();
         bookingDB.loadBookingsFromFile();
-
-
+        System.out.println("------------------------------------------------------------------------------------------");
         StudentDB studentDB = new StudentDB();
         studentDB.loadStudentsFromFile();
+        System.out.println("-------------------------------------------------------------------------------------------");
+        LaptopDB laptopsDB = new LaptopDB();
+        laptopsDB.loadLaptopsFromFile();
+        System.out.println("-------------------------------------------------------------------------------------------");
+        DesktopDB desktopsDB = new DesktopDB();
+        desktopsDB.loadDesktopsFromFile();
+        System.out.println("-------------------------------------------------------------------------------------------");
+        RaspberryPiDB pisDB = new RaspberryPiDB();
+        pisDB.loadRaspberryPisFromFile();
+
+
 
 
         MenuOptions selectOption = MenuOptions.CONTINUE;
@@ -33,92 +44,117 @@ public class App
                 {
                     case Add_STUDENT:
                         System.out.println("Please enter the name of the student you wish to add: ");
-                        String studentName = keyboard.next();
+                        String studentName = kb.next();
 
                         System.out.println("Please enter the student's ID: ");
-                        int studentID = keyboard.nextInt();
+                        String studentID = kb.next();
 
                         System.out.println("Please enter the student's email:  ");
+                        String email = kb.next();
 
                         System.out.println("Please enter the student's telephone number: ");
+                        String telephone = kb.next();
 
-                        System.out.println("Please enter the number of pcs the student has loan: ");
-                        int numOfPcs = keyboard.nextInt();
+                        String[] pcsOnLoan = {};
+
+                        Student newStudent = new Student(studentName, studentID, email, telephone, pcsOnLoan);
+                        studentDB.addStudent(newStudent);
 
                         break;
                     case ADD_BOOKING:
                         //when doing scanning in add asset tag of booking to student profile with same student id.
+                        System.out.println("Please enter the date (YYYY-MM-DD): ");
+                        String bookingTime = kb.next();
+                        LocalDate booking_time = LocalDate.parse(bookingTime);
+                        LocalDate returnTime = null;
+                        System.out.println("PLease enter computer type (laptop/desktop/raspberry pi): ");
+                        String computerType = kb.next();
 
+
+                                if (computerType.toUpperCase().equals("DESKTOP"))
+                                {
+                                    System.out.println("Desktops available:");
+                                    desktopsDB.printDesktops();
+
+                                } else if (computerType.toUpperCase().equals("LAPTOP"))
+                                {
+                                    System.out.println("laptops available:");
+                                    laptopsDB.printLaptops();
+
+                                } else if (computerType.toUpperCase().equals("RASPBERRY PI"))
+                                {
+                                    System.out.println("Raspberry Pis available:");
+                                    pisDB.printPis();
+
+                                } else {
+                                    System.out.println("Incorrect computer type " + computerType.toUpperCase());
+
+                                }
+
+
+                        System.out.println("Please enter computer asset tag that you wish to borrow");
+                        String computerAssetTag = kb.next();
+
+                        System.out.println("Please enter student id: ");
+                        String student_id = kb.next();
+
+                        Booking newBooking = new Booking(booking_time, returnTime,computerType,computerAssetTag,student_id);
+                        bookingDB.addBooking(newBooking);
+                        bookingDB.printBookings();
                         break;
 
 
                     case FIND_AND_EDIT_STUDENT:
+                        System.out.println("Please Enter the ID od the student you wish to find e.g 1000,1001 etc : "); //TODO add loop for menu error
+                        int id = kb.nextInt();
+                        Student selectedStudent =  studentDB.findStudentByID(id);
+                        System.out.println(selectedStudent);
 
-                        EditingStudentMenuOptions selection = EditingStudentMenuOptions.CONTINUE;
+                        editingStudentMenu();
 
-                        while(selection != EditingStudentMenuOptions.QUIT_MENU)
+                        int choice = kb.nextInt();
+
+                        if(choice == 1)
                         {
-                            try
-                            {
-                                editingStudentMenu();
-                                selection = EditingStudentMenuOptions.values()[Integer.parseInt(keyboard.nextLine().trim())];
-
-                                switch (selection)
-                                {
-                                    case FIND_STUDENT:
-                                        System.out.println("Please Enter the ID od the student you wish to find e.g 1000,1001 etc : ");
-                                        int id = keyboard.nextInt();
-                                        //Student selectedStudent =  studentDB.findStudentByID(id);
-                                        //System.out.println(selectedStudent);
-                                        break;
-                                    case EDIT_NAME:
-                                        //selectedStudent.setName();
-                                        break;
-
-                                    case DELETE_NAME:
-
-                                        break;
-
-                                    case EDIT_EMAIL:
-                                        //selectedStudent.setEmail();
-                                        break;
-
-                                    case DELETE_EMAIL:
-
-                                        break;
-
-                                    case EDIT_TELEPHONE:
-                                        //selectedStudent.setTelephone();
-                                        break;
-
-                                    case DELETE_TELEPHONE:
-
-                                        break;
-
-                                    case REMOVE_STUDENT_FROM_SYSTEM:
-                                        //studentDB.removeStudentById(id);
-                                        break;
-
-                                    case QUIT_MENU:
-
-                                        break;
-
-                                    default:
-                                        System.out.println("Selection out of range. Try again");
-
-                                }
-
-                            }
-                            catch(IllegalArgumentException e)
-                            {
-                                System.out.println("Selection out of range. Please try again.");
-                            }
-                            catch(ArrayIndexOutOfBoundsException e)
-                            {
-                                System.out.println("Selection out of range. Please try again.");
-                            }
+                            System.out.println("Please enter new name for the selected student");
+                            String newName = kb.next();
+                            selectedStudent.setName(newName);
                         }
+                        else if(choice == 2)
+                        {
+                            selectedStudent.setName("");
+                        }
+                        else if(choice == 3)
+                        {
+                            System.out.println("Please enter new email for the selected student");
+                            String newEmail = kb.next();
+                            selectedStudent.setEmail(newEmail);
+                        }
+                        else if(choice == 4)
+                        {
+                            selectedStudent.setEmail("");
+                        }
+                        else if(choice == 5)
+                        {
+                            System.out.println("Please enter new telephone for the selected student");
+                            String newTelephone = kb.next();
+                            selectedStudent.setTelephone(newTelephone);
+                        }
+                        else if(choice == 6)
+                        {
+                            selectedStudent.setTelephone("");
+                        }
+                        else if(choice == 7)
+                        {
+                            studentDB.removeStudentById(id);
+                            System.out.println("Student removed from database");
+                            System.out.println(studentDB);
+                        }
+                        else if(choice == 8)
+                        {
 
+                            //quit
+                        }
                         break;
 
                     case PRINT_ALL_STUDENTS:
@@ -133,7 +169,7 @@ public class App
 
 
                     case AVERAGE_LENGTH_OF_BOOKINGS:
-//                        printAVGLength()
+//                        printAVGLength()  use sort
                         break;
 
 
@@ -145,6 +181,8 @@ public class App
 
 
                     case QUIT:
+                        bookingDB.saveBookingsToFile();
+                        studentDB.saveStudentsToFile();
                         break;
 
                         
@@ -194,5 +232,7 @@ public class App
         System.out.println();
 
     }
+
+
 }
 

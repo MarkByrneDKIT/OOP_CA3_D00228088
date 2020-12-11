@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Booking
 {
-    private static int count = 1000;
+    private static int count = 1004;
     private  int booking_id;
     private LocalDate booking_time;
     private LocalDate return_time;

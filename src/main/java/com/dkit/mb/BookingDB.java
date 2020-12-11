@@ -1,6 +1,8 @@
 package com.dkit.mb;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -86,10 +88,27 @@ public class BookingDB
             System.out.println("IOException thrown in loadStudentsFromFile() "+e.getMessage());
         }
 
+
+
+
     }
 
 
-
+    public void saveBookingsToFile()
+    {
+        try(BufferedWriter studentsFile = new BufferedWriter(new FileWriter("newBookings.txt") ))
+        {
+            for(Booking booking : bookingList)
+            {
+                studentsFile.write(booking.getBooking_id() +" " + booking.getBooking_time() + " " + booking.getReturn_time() + " " + booking.getComputer_type() + " " + booking.getComputer_asset_tag() + " " + booking.getStudent_id());
+                studentsFile.write("\n");
+            }
+        }
+        catch(IOException ioe)
+        {
+            System.out.println("Could not save bookings.");
+        }
+    }
 
 
 
