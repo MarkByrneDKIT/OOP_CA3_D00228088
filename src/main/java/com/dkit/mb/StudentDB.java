@@ -27,12 +27,13 @@ public class StudentDB
         }
     }
 
-    public Student findStudentByID(int id)
+    public Student findStudentByID(String id)
     {
         for(Student s : studentList) {
-            if (s.getID().equals(id))
+            if (s.getID().equals(id)) {
+                System.out.println("student found!");
                 return s;
-
+            }
         }
         return null;
     }
@@ -42,7 +43,7 @@ public class StudentDB
         studentList.add(student);
     }
 
-    public void removeStudentById(int id)
+    public void removeStudentById(String id)
     {
         Student student = findStudentByID(id);      //TODO check for null id
         if(student != null)
@@ -115,6 +116,15 @@ public class StudentDB
     }
 
 
+    public void returnLaptop(String id)
+    {
+        Student student = findStudentByID(id);
+        if(student != null)
+        {
+            String pcs[] = student.getPcs_on_loan();
+        }
+
+    }
 
 }
 
